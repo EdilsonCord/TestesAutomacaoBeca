@@ -1,3 +1,4 @@
+//CT 01
 package com.everis.testes;
 
 import static org.junit.Assert.assertEquals;
@@ -42,13 +43,14 @@ public class ComprarUsado {
 		public void testHello() {
 			driver.manage().window().maximize();
 			driver.get("https://www.webmotors.com.br/");
-			
+			Cookie clica = new Cookie();
+			clica.clickCookie(driver);
 		}
 		
 		
 		@Test
 		public void comprar() {
-			WebElement comprar = driver.findElement(By.xpath("//*[@id=\"root\"]/header/nav/div/ul/li[1]"));
+			WebElement comprar = driver.findElement(By.xpath("/html/body/div[1]/header/nav/div/ul/li[1]"));
 			comprar.click();
 			WebElement carros = driver.findElement(By.linkText("Carros usados ou seminovos"));
 			carros.click();
@@ -72,15 +74,15 @@ public class ComprarUsado {
 			SimpleDateFormat formatoDeData = new SimpleDateFormat("yyyyMMdd-HHmmss-SSSS");
 			String fileName = formatoDeData.format(new Date());
 			String shotName = String.format("%s.png", fileName);
-			File finalShotFile = new File("C:\\cursoSelenium\\exemploSelenium\\screenshots", shotName);
+			File finalShotFile = new File("C:\\Users\\CASA\\Documents\\Selenium\\TestesAutomacaoBeca\\screenshots", shotName);
 			File shotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 			FileUtils.copyFile(shotFile, finalShotFile);
 		}
 		
 
 		@AfterClass 
-		public static void closeDriver() {
-			
+		public static void closeDriver() throws InterruptedException {
+			Thread.sleep(5000);
 			driver.quit();
 			
 		}

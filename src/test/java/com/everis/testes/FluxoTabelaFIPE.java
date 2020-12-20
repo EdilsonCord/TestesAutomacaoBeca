@@ -1,3 +1,4 @@
+//CT 03
 package com.everis.testes;
 
 import static org.junit.Assert.assertEquals;
@@ -35,7 +36,8 @@ static WebDriver driver;
 	public void testHello() {
 		driver.manage().window().maximize();
 		driver.get("https://www.webmotors.com.br/");
-		
+		Cookie clica = new Cookie();
+		clica.clickCookie(driver);
 	}
 	
 	
@@ -64,6 +66,8 @@ static WebDriver driver;
 		estadoCarro.click();
 		
 		
+		
+		
 		String filtroFiat = driver.findElement(By.xpath("/html/body/app/section/section/div/div[1]/div/div[1]/div/div/ul/li[1]/a")).getText();
         assertEquals("FIAT", filtroFiat);
         String filtroCronos= driver.findElement(By.xpath("/html/body/app/section/section/div/div[1]/div/div[1]/div/div/ul/li[2]/a")).getText();
@@ -82,15 +86,15 @@ static WebDriver driver;
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("yyyyMMdd-HHmmss-SSSS");
 		String fileName = formatoDeData.format(new Date());
 		String shotName = String.format("%s.png", fileName);
-		File finalShotFile = new File("C:\\cursoSelenium\\exemploSelenium\\screenshots", shotName);
+		File finalShotFile = new File("C:\\Users\\CASA\\Documents\\Selenium\\TestesAutomacaoBeca\\screenshots", shotName);
 		File shotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(shotFile, finalShotFile);
 	}
 	
 
 	@AfterClass 
-	public static void closeDriver() {
-		
+	public static void closeDriver() throws InterruptedException {
+		Thread.sleep(5000);
 		driver.quit();
 		
 	}

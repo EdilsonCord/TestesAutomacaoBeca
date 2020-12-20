@@ -1,3 +1,4 @@
+//CT 05
 package com.everis.testes;
 
 import static org.junit.Assert.assertEquals;
@@ -8,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -24,6 +26,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class Vender {
 	static WebDriver driver; 
 	
+	
+	
 	@BeforeClass
 	public static void createDriver() {
 		System.setProperty("webdriver.chrome.driver", "C:\\chromedriver\\chromedriver.exe");
@@ -36,11 +40,14 @@ public class Vender {
 		driver.manage().window().maximize();
 		driver.get("https://www.webmotors.com.br/");
 		
+		Cookie clica = new Cookie();
+		clica.clickCookie(driver);
 	}
 	
 	
 	@Test
 	public void vender() {
+		
 		WebElement vender = driver.findElement(By.xpath("/html/body/div[1]/header/nav/div/ul/li[2]"));
 		vender.click();
 		WebElement venderVeiculo = driver.findElement(By.linkText("Vender meu veículo"));
@@ -60,15 +67,15 @@ public class Vender {
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("yyyyMMdd-HHmmss-SSSS");
 		String fileName = formatoDeData.format(new Date());
 		String shotName = String.format("%s.png", fileName);
-		File finalShotFile = new File("C:\\cursoSelenium\\exemploSelenium\\screenshots", shotName);
+		File finalShotFile = new File("C:\\Users\\CASA\\Documents\\Selenium\\TestesAutomacaoBeca\\screenshots", shotName);
 		File shotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(shotFile, finalShotFile);
 	}
 	
 
 	@AfterClass 
-	public static void closeDriver() {
-		
+	public static void closeDriver() throws InterruptedException {
+		Thread.sleep(5000);
 		driver.quit();
 		
 	}

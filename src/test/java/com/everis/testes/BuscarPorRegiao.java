@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
@@ -35,18 +36,17 @@ public class BuscarPorRegiao {
 	public void testHello() {
 		driver.manage().window().maximize();
 		driver.get("https://www.webmotors.com.br/");
-		
+		Cookie clica = new Cookie();
+		clica.clickCookie(driver);
 	}
 	
 	
 	@Test
-	public void buscaRegiao() throws InterruptedException {
-		WebElement cookie = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[2]/button"));
-		cookie.click();
+	public void buscaRegiao() throws InterruptedException{
 		WebElement maisInformaçoes = driver.findElement(By.xpath("/html/body/div[1]/footer/div/div[1]/div[2]"));
 		maisInformaçoes.click();
-		Thread.sleep(3000);
-		WebElement saoPaulo = driver.findElement(By.linkText("/html/body/div[1]/footer/div/div[1]/ul[2]/li[1]/ul/li[1]/a"));
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		WebElement saoPaulo = driver.findElement(By.xpath("/html/body/div[1]/footer/div/div[1]/ul[2]/li[1]/ul/li[1]/a"));
 		saoPaulo.click();
 		
 		
@@ -56,25 +56,25 @@ public class BuscarPorRegiao {
 		
 		
 		String filtroSaoPaulo = driver.findElement(By.xpath("/html/body/div[1]/main/div[1]/div[1]/div/div[2]/div/ul/li/a")).getText();
-        assertEquals("SAO PAULO", filtroSaoPaulo);
+        assertEquals("SAO PAULO - SP", filtroSaoPaulo);
         
 	}
 	
 	
 	@After
-	public void takeScreenShot() throws IOException { 
+	public void takeScreenShot() throws IOException {
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("yyyyMMdd-HHmmss-SSSS");
 		String fileName = formatoDeData.format(new Date());
 		String shotName = String.format("%s.png", fileName);
-		File finalShotFile = new File("C:\\cursoSelenium\\exemploSelenium\\screenshots", shotName);
+		File finalShotFile = new File("C:\\Users\\CASA\\Documents\\Selenium\\TestesAutomacaoBeca\\screenshots", shotName);
 		File shotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(shotFile, finalShotFile);
 	}
 	
 
 	@AfterClass 
-	public static void closeDriver() {
-		
+	public static void closeDriver() throws InterruptedException {
+		Thread.sleep(5000);
 		driver.quit();
 		
 	}

@@ -35,7 +35,8 @@ static WebDriver driver;
 	public void testHello() {
 		driver.manage().window().maximize();
 		driver.get("https://www.webmotors.com.br/");
-		
+		Cookie clica = new Cookie();
+		clica.clickCookie(driver);
 	}
 	
 	
@@ -48,12 +49,12 @@ static WebDriver driver;
 		driver.close();
 		driver.switchTo().window(abas.get(1));
 		
+	
 		WebElement botaoHome = driver.findElement(By.xpath("/html/body/div/div/header/div/a/img"));
 		botaoHome.click();
 		
 		
-		String home = driver.findElement(By.xpath("/html/head/title")).getText();
-        assertEquals("Webmotors | Compre, venda e financie carros usados, novos e motos", home);
+		assertEquals(driver.getTitle(), "Webmotors | Compre, venda e financie carros usados, novos e motos");
 		
 		
 	}
@@ -64,15 +65,15 @@ static WebDriver driver;
 		SimpleDateFormat formatoDeData = new SimpleDateFormat("yyyyMMdd-HHmmss-SSSS");
 		String fileName = formatoDeData.format(new Date());
 		String shotName = String.format("%s.png", fileName);
-		File finalShotFile = new File("C:\\cursoSelenium\\exemploSelenium\\screenshots", shotName);
+		File finalShotFile = new File("C:\\Users\\CASA\\Documents\\Selenium\\TestesAutomacaoBeca\\screenshots", shotName);
 		File shotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 		FileUtils.copyFile(shotFile, finalShotFile);
 	}
 	
 
 	@AfterClass 
-	public static void closeDriver() {
-		
+	public static void closeDriver() throws InterruptedException {
+		Thread.sleep(5000);
 		driver.quit();
 		
 	}
